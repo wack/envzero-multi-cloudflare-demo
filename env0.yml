@@ -6,28 +6,36 @@ deploy:
       before:
         - name: Build MultiTool from Source
           run: |
+            # Install Node.js and NPM
+            sudo apk add --no-cache nodejs npm
             which npm
-            
+
             # Install build dependencies
-            sudo apk add --no-cache build-base gcc musl-dev git pkgconf openssl-dev openssl-libs-static
+            # sudo apk add --no-cache build-base gcc musl-dev git pkgconf openssl-dev openssl-libs-static
             
-            # Install Rust toolchain (non-interactive)
-            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-            source $HOME/.cargo/env
+            # # Install Rust toolchain (non-interactive)
+            # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            # source $HOME/.cargo/env
             
-            # Verify compiler is available
-            which gcc
-            gcc --version
+            # # Verify compiler is available
+            # which gcc
+            # gcc --version
             
-            # Clone MultiTool source code
-            git clone https://github.com/wack/multitool.git multitool
+            # # Clone MultiTool source code
+            # git clone https://github.com/wack/multitool.git multitool
             
-            # Install cargo-make
-            cargo install --force cargo-make
+            # # Install cargo-make
+            # cargo install --force cargo-make
             
-            # Build MultiTool
-            cd multitool
-            cargo make build
+            # # Build MultiTool
+            # cd multitool
+            # cargo make build
+
+            
+
+    # TODO: I need to add a Workflow Step that runs `multi login` with the username
+    #       and password.
+            
     # terraformApply:
     #   after:
     #     - name: Debug MultiTool Binary Location
