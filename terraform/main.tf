@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "cloudflare" {
-  api_token = var.cloudflare_api_key
+  api_key = var.cloudflare_api_key
 }
 
 resource "cloudflare_worker_script" "demo_worker" {
