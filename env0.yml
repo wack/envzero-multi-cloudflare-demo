@@ -1,0 +1,54 @@
+version: 2
+
+deploy:
+  steps:
+    terraformInit:
+      before:
+        - name: Build MultiTool from Source
+          run: |
+            which npm
+            
+            # Install build dependencies
+            sudo apk add --no-cache build-base gcc musl-dev git pkgconf openssl-dev openssl-libs-static
+            
+            # Install Rust toolchain (non-interactive)
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            source $HOME/.cargo/env
+            
+            # Verify compiler is available
+            which gcc
+            gcc --version
+            
+            # Clone MultiTool source code
+            git clone https://github.com/wack/multitool.git multitool
+            
+            # Install cargo-make
+            cargo install --force cargo-make
+            
+            # Build MultiTool
+            cd multitool
+            cargo make build
+    # terraformApply:
+    #   after:
+    #     - name: Debug MultiTool Binary Location
+    #       run: |
+    #         echo "=== Current working directory ==="
+    #         pwd
+    #         echo "=== Contents of current directory ==="
+    #         ls -la
+    #         echo "=== Looking for multitool directory ==="
+    #         find . -name "multitool" -type d
+    #         echo "=== Looking for multi binary ==="
+    #         find . -name "multi" -type f
+    #         echo "=== Contents of multitool directory if it exists ==="
+    #         if [ -d "multitool" ]; then
+    #           ls -la multitool/
+    #           if [ -d "multitool/target" ]; then
+    #             echo "=== Contents of multitool/target ==="
+    #             ls -la multitool/target/
+    #             if [ -d "multitool/target/release" ]; then
+    #               echo "=== Contents of multitool/target/release ==="
+    #               ls -la multitool/target/release/
+    #             fi
+    #           fi
+    #         fi
