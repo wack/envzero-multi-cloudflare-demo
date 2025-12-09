@@ -16,6 +16,7 @@ terraform {
 }
 
 provider "cloudflare" {
+  email   = "cloudflare@wack.run"
   api_key = var.cloudflare_api_key
 }
 
