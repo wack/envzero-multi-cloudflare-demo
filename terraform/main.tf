@@ -5,10 +5,18 @@ terraform {
       version = "~> 4.0"
     }
   }
+
+  cloud {
+    hostname     = "backend.api.env0.com"
+    organization = "${var.organization_id}.${var.project_id}"
+    workspaces {
+      name = "envzero-multi-cloudflare-demo-prod"
+    }
+  }
 }
 
 provider "cloudflare" {
-  api_token = var.cloudflare_api_token
+  api_token = var.cloudflare_api_key
 }
 
 resource "cloudflare_worker_script" "demo_worker" {
